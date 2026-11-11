@@ -1,0 +1,525 @@
+
+/* =========================================================
+   MOORE VISION — PANELES PUBLICITARIOS DE LENTES
+========================================================= */
+
+.lenses-marquee-section {
+  position: relative;
+  width: 100%;
+  padding: 85px 0 48px;
+  overflow: hidden;
+  color: #f2f4f6;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(89, 119, 151, 0.16),
+      transparent 55%
+    ),
+    linear-gradient(180deg, #11161c, #0b0f14);
+
+  border-top: 1px solid rgba(174, 191, 209, 0.14);
+  border-bottom: 1px solid rgba(174, 191, 209, 0.14);
+}
+
+/* ENCABEZADO */
+
+.lenses-marquee-heading {
+  width: min(90%, 760px);
+  margin: 0 auto 45px;
+  text-align: center;
+}
+
+.lenses-marquee-eyebrow {
+  display: inline-block;
+  margin-bottom: 17px;
+
+  color: #9daebe;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.lenses-marquee-heading h2 {
+  margin: 0;
+  color: #f3f5f7;
+  font-family: var(--font-title, inherit);
+  font-size: clamp(32px, 4vw, 49px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -1px;
+}
+
+.lenses-marquee-heading p {
+  margin: 17px auto 0;
+  color: #a7b0ba;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* DISTRIBUCIÓN DE LOS TRES PANELES */
+
+.lens-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 22px;
+
+  width: min(1320px, 92%);
+  margin: 0 auto;
+}
+
+/* PANEL PUBLICITARIO */
+
+.lens-feature-card {
+  position: relative;
+  display: block;
+  min-width: 0;
+  min-height: 475px;
+  overflow: hidden;
+
+  color: #ffffff;
+  text-decoration: none;
+
+  background: #18222e;
+  border: 1px solid rgba(169, 190, 212, 0.25);
+  border-radius: 5px;
+
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.27);
+
+  isolation: isolate;
+
+  transition:
+    transform 0.35s ease,
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.lens-feature-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  z-index: 5;
+
+  width: 100%;
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #b7c8da,
+    transparent
+  );
+
+  animation: lens-feature-light 6s ease-in-out infinite;
+}
+
+@keyframes lens-feature-light {
+  0% {
+    left: -100%;
+  }
+
+  65%,
+  100% {
+    left: 100%;
+  }
+}
+
+.lens-feature-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(190, 210, 231, 0.65);
+
+  box-shadow:
+    0 22px 45px rgba(0, 0, 0, 0.38),
+    0 0 25px rgba(111, 151, 190, 0.1);
+}
+
+.lens-feature-card:focus-visible {
+  outline: 2px solid #b9c8d8;
+  outline-offset: 4px;
+}
+
+/* IMAGEN Y VIDEO */
+
+.lens-feature-media {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  overflow: hidden;
+
+  background: #202c3a;
+}
+
+.lens-feature-media img,
+.lens-feature-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transform: scale(1.04);
+  animation: lens-feature-media-motion 12s ease-in-out infinite alternate;
+}
+
+@keyframes lens-feature-media-motion {
+  from {
+    transform: scale(1.04);
+  }
+
+  to {
+    transform: scale(1.13);
+  }
+}
+
+/* ILUSTRACIÓN TEMPORAL CUANDO NO HAY IMAGEN O VIDEO */
+
+.lens-feature-placeholder {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(174, 199, 224, 0.24),
+      transparent 48%
+    ),
+    linear-gradient(145deg, #34475a, #111923 75%);
+}
+
+.lens-feature-placeholder--blue-block {
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(94, 143, 244, 0.38),
+      transparent 50%
+    ),
+    linear-gradient(145deg, #253a68, #101725 75%);
+}
+
+.lens-feature-placeholder--transitions {
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(154, 130, 190, 0.32),
+      transparent 50%
+    ),
+    linear-gradient(145deg, #51465f, #171923 75%);
+}
+
+.lens-placeholder-lens {
+  display: block;
+  width: 105px;
+  height: 86px;
+
+  border: 3px solid rgba(218, 230, 243, 0.82);
+  border-radius: 20px 20px 42px 42px;
+
+  background: linear-gradient(
+    140deg,
+    rgba(216, 232, 248, 0.32),
+    rgba(97, 141, 183, 0.12),
+    rgba(210, 226, 243, 0.2)
+  );
+
+  box-shadow:
+    inset 0 0 24px rgba(195, 220, 244, 0.2),
+    0 0 30px rgba(151, 190, 229, 0.18);
+}
+
+.lens-feature-placeholder--blue-block .lens-placeholder-lens {
+  background: linear-gradient(
+    140deg,
+    rgba(87, 154, 255, 0.52),
+    rgba(83, 103, 214, 0.2),
+    rgba(117, 162, 255, 0.3)
+  );
+}
+
+.lens-feature-placeholder--transitions .lens-placeholder-lens {
+  background: linear-gradient(
+    140deg,
+    rgba(145, 177, 211, 0.38),
+    rgba(133, 109, 170, 0.44),
+    rgba(76, 83, 130, 0.5)
+  );
+}
+
+.lens-placeholder-bridge {
+  position: absolute;
+  top: calc(50% - 3px);
+
+  width: 20px;
+  height: 9px;
+
+  border-top: 3px solid rgba(218, 230, 243, 0.85);
+  border-radius: 50%;
+}
+
+/* CAPA OSCURA PARA LEGIBILIDAD */
+
+.lens-feature-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+
+  background: linear-gradient(
+    180deg,
+    rgba(7, 12, 18, 0.12) 0%,
+    rgba(7, 12, 18, 0.14) 35%,
+    rgba(7, 12, 18, 0.72) 67%,
+    rgba(7, 12, 18, 0.97) 100%
+  );
+
+  transition: background 0.35s ease;
+}
+
+.lens-feature-card:hover .lens-feature-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(7, 12, 18, 0.08),
+    rgba(7, 12, 18, 0.2) 38%,
+    rgba(7, 12, 18, 0.8) 70%,
+    rgba(7, 12, 18, 0.98)
+  );
+}
+
+/* IDENTIDAD SUPERIOR */
+
+.lens-feature-topline {
+  position: absolute;
+  top: 21px;
+  left: 21px;
+  right: 21px;
+
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  color: #e0e8f0;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+/* CONTENIDO INFERIOR */
+
+.lens-feature-content {
+  position: absolute;
+  right: 25px;
+  bottom: 27px;
+  left: 25px;
+}
+
+.lens-feature-eyebrow {
+  display: inline-block;
+  margin-bottom: 13px;
+
+  color: #bdcbd9;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.lens-feature-content h3 {
+  max-width: 380px;
+  margin: 0 0 12px;
+
+  color: #ffffff;
+  font-size: clamp(18px, 2vw, 25px);
+  font-weight: 700;
+  line-height: 1.22;
+  letter-spacing: 0.2px;
+}
+
+.lens-feature-content p {
+  max-width: 390px;
+  margin: 0;
+
+  color: #d1d8e0;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.lens-feature-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  margin-top: 22px;
+  padding-bottom: 5px;
+
+  color: #e2ebf4;
+  border-bottom: 1px solid rgba(201, 219, 238, 0.65);
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.lens-feature-cta span {
+  font-size: 17px;
+  transition: transform 0.25s ease;
+}
+
+.lens-feature-card:hover .lens-feature-cta span {
+  transform: translate(4px, -4px);
+}
+
+/* NUMERACIÓN DECORATIVA */
+
+.lens-feature-number {
+  position: absolute;
+  top: 52px;
+  right: 23px;
+
+  color: rgba(255, 255, 255, 0.55);
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+/* PIE DE LA FRANJA */
+
+.lenses-marquee-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+
+  width: min(90%, 700px);
+  margin: 35px auto 0;
+}
+
+.lenses-marquee-footer span {
+  flex: 1;
+  height: 1px;
+  background: rgba(163, 185, 207, 0.3);
+}
+
+.lenses-marquee-footer p {
+  flex-shrink: 0;
+  margin: 0;
+
+  color: #8496a8;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.7px;
+  text-align: center;
+}
+
+/* TABLET */
+
+@media (max-width: 1000px) {
+  .lens-feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: min(850px, 92%);
+  }
+
+  .lens-feature-card {
+    min-height: 440px;
+  }
+
+  .lens-feature-content h3 {
+    font-size: 22px;
+  }
+}
+
+/* CELULAR */
+
+@media (max-width: 650px) {
+  .lenses-marquee-section {
+    padding: 60px 0 35px;
+  }
+
+  .lenses-marquee-heading {
+    width: 88%;
+    margin-bottom: 30px;
+  }
+
+  .lenses-marquee-heading h2 {
+    font-size: 30px;
+  }
+
+  .lenses-marquee-heading p {
+    font-size: 12px;
+  }
+
+  .lens-feature-grid {
+    grid-template-columns: 1fr;
+    width: min(90%, 430px);
+    gap: 18px;
+  }
+
+  .lens-feature-card {
+    min-height: 430px;
+  }
+
+  .lens-feature-content {
+    right: 21px;
+    bottom: 23px;
+    left: 21px;
+  }
+
+  .lens-feature-content h3 {
+    font-size: 23px;
+  }
+
+  .lenses-marquee-footer {
+    gap: 10px;
+    margin-top: 25px;
+  }
+
+  .lenses-marquee-footer p {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+}
+
+/* MOVIMIENTO REDUCIDO */
+
+@media (prefers-reduced-motion: reduce) {
+  .lens-feature-card,
+  .lens-feature-card::before,
+  .lens-feature-media img,
+  .lens-feature-media video,
+  .lens-feature-cta span {
+    animation: none;
+    transition: none;
+  }
+
+/* DOS IMÁGENES EN EL PANEL DE FOTOSENSIBLES Y TRANSITIONS */
+
+.lens-feature-media-pair {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px;
+  overflow: hidden;
+}
+
+.lens-feature-media-pair img {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  object-fit: cover;
+  animation: lens-feature-media-motion 12s ease-in-out infinite alternate;
+}
+
+.lens-feature-media-pair img:first-child {
+  object-position: center;
+}
+
+.lens-feature-media-pair img:last-child {
+  object-position: center;
+}
+
+}

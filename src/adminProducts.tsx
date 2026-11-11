@@ -2,7 +2,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { supabase } from './supabase';
 import { uploadProductImage } from './services/storageService';
-import type { Product, ProductCategory } from './types';
+import type { Product, ProductCategory, ProductShape } from './types';
 
 function AdminProducts() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -15,10 +15,22 @@ function AdminProducts() {
   const [reference, setReference] = useState('');
   const [price, setPrice] = useState('');
   const [category, setCategory] = useState<ProductCategory>('Unisex');
+  const [shape, setShape] = useState<ProductShape | ''>('');
+  const [isNew, setIsNew] = useState(false);
   const [image, setImage] = useState<File | null>(null);
 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [currentImage, setCurrentImage] = useState('');
+
+  const availableShapes: ProductShape[] = [
+    'Rectangular',
+    'Redonda',
+    'Cuadrada',
+    'Aviador',
+    'Cat-eye',
+    'Geométrica',
+    'Otra',
+  ];
 
   async function loadProducts() {
     setLoading(true);
@@ -47,6 +59,8 @@ function AdminProducts() {
     setReference('');
     setPrice('');
     setCategory('Unisex');
+    setShape('');
+    setIsNew(false);
     setImage(null);
     setEditingId(null);
     setCurrentImage('');
@@ -62,10 +76,14 @@ function AdminProducts() {
     setEditingId(product.id);
     setName(product.name);
     setReference(product.reference);
+
     setPrice(
       Number(product.price) > 0 ? String(product.price) : ''
     );
+
     setCategory(product.category);
+    setShape(product.shape ?? '');
+    setIsNew(product.is_new ?? false);
     setCurrentImage(product.image || '');
     setImage(null);
     setError('');
@@ -83,6 +101,11 @@ function AdminProducts() {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    if (!shape) {
+      setError('Selecciona la forma de la montura.');
+      return;
+    }
+
     setSaving(true);
     setError('');
     setSuccess('');
@@ -99,6 +122,8 @@ function AdminProducts() {
         reference: reference.trim(),
         price: Number(price) || 0,
         category,
+        shape,
+        is_new: isNew,
         image: imageUrl || null,
       };
 
@@ -128,6 +153,7 @@ function AdminProducts() {
       await loadProducts();
     } catch (err) {
       console.error(err);
+
       setError(
         'No fue posible guardar la montura. Verifica los datos e inténtalo nuevamente.'
       );
@@ -181,6 +207,7 @@ function AdminProducts() {
   return (
     <section style={styles.container}>
       <h2 style={styles.title}>Gestión de catálogo</h2>
+
       <p style={styles.description}>
         Agrega y administra las monturas de Moore Vision.
       </p>
@@ -191,6 +218,7 @@ function AdminProducts() {
         </h3>
 
         <label style={styles.label}>Nombre de la montura</label>
+
         <input
           style={styles.input}
           value={name}
@@ -200,6 +228,7 @@ function AdminProducts() {
         />
 
         <label style={styles.label}>Referencia</label>
+
         <input
           style={styles.input}
           value={reference}
@@ -209,6 +238,7 @@ function AdminProducts() {
         />
 
         <label style={styles.label}>Precio (COP) - Opcional</label>
+
         <input
           style={styles.input}
           type="number"
@@ -220,6 +250,7 @@ function AdminProducts() {
         />
 
         <label style={styles.label}>Categoría</label>
+
         <select
           style={styles.input}
           value={category}
@@ -232,7 +263,52 @@ function AdminProducts() {
           <option value="Unisex">Unisex</option>
         </select>
 
+        <label style={styles.label}>Forma de la montura</label>
+
+        <select
+          style={styles.input}
+          value={shape}
+          onChange={(e) =>
+            setShape(e.target.value as ProductShape | '')
+          }
+          required
+        >
+          <option value="">Selecciona una forma</option>
+
+          {availableShapes.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
+
+        {/* DESTACAR COMO NUEVA */}
+        <div style={styles.newProductBox}>
+          <label style={styles.newProductLabel}>
+            <input
+              type="checkbox"
+              checked={isNew}
+              onChange={(e) => setIsNew(e.target.checked)}
+              style={styles.newProductCheckbox}
+            />
+
+            <span style={styles.newProductText}>
+              Marcar como montura nueva
+            </span>
+
+            <span style={styles.newBadge}>
+              NUEVA
+            </span>
+          </label>
+
+          <p style={styles.newProductDescription}>
+            Al activar esta opción aparecerá la etiqueta NUEVA
+            sobre la fotografía en el catálogo.
+          </p>
+        </div>
+
         <label style={styles.label}>Fotografía de la montura</label>
+
         <input
           id="product-image"
           style={styles.input}
@@ -255,7 +331,9 @@ function AdminProducts() {
                 />
               </>
             )}
+
             {image && <p>Nueva fotografía: {image.name}</p>}
+
             {!currentImage && !image && (
               <p>Esta montura no tiene fotografía.</p>
             )}
@@ -306,13 +384,27 @@ function AdminProducts() {
 
               <div style={styles.productInfo}>
                 <strong>{product.name}</strong>
+
                 <span>Ref: {product.reference}</span>
+
                 <span>
                   {Number(product.price) > 0
                     ? `$${Number(product.price).toLocaleString('es-CO')}`
                     : 'Precio no publicado'}
                 </span>
-                <span>{product.category}</span>
+
+                <span>Categoría: {product.category}</span>
+
+                <span>
+                  Forma: {product.shape ?? 'Sin asignar'}
+                </span>
+
+                {product.is_new && (
+                  <span style={styles.newBadge}>
+                    NUEVA
+                  </span>
+                )}
+
                 <span>
                   {product.available ? 'Disponible' : 'No disponible'}
                 </span>
@@ -384,6 +476,49 @@ const styles: Record<string, React.CSSProperties> = {
     background: '#fff',
     boxSizing: 'border-box',
     fontSize: '14px',
+  },
+  newProductBox: {
+    marginTop: '22px',
+    padding: '17px',
+    background: '#eef2f4',
+    border: '1px solid #d5dee3',
+  },
+  newProductLabel: {
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap',
+    gap: '10px',
+    cursor: 'pointer',
+  },
+  newProductCheckbox: {
+    width: '17px',
+    height: '17px',
+    accentColor: '#526977',
+    cursor: 'pointer',
+  },
+  newProductText: {
+    color: '#20272b',
+    fontSize: '13px',
+    fontWeight: 600,
+  },
+  newProductDescription: {
+    color: '#68757d',
+    fontSize: '11px',
+    lineHeight: 1.6,
+    marginTop: '10px',
+  },
+  newBadge: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: '6px 9px',
+    background: '#dce4e9',
+    border: '1px solid #b8c7d0',
+    color: '#25323a',
+    fontSize: '9px',
+    fontWeight: 700,
+    letterSpacing: '1px',
+    width: 'fit-content',
   },
   button: {
     width: '100%',
