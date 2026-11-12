@@ -7,8 +7,11 @@ import {
 } from 'react';
 import { supabase } from './supabase';
 import AdminProducts from './adminProducts';
+import AdminAdvertisements from './adminAdvertisements';
 
 const ADMIN_ID = 'd2d6cf01-bd36-46ad-90d7-88a504e58d11';
+
+type AdminSection = 'products' | 'advertisements';
 
 function Admin() {
   const [email, setEmail] = useState('');
@@ -17,6 +20,9 @@ function Admin() {
   const [processing, setProcessing] = useState(false);
   const [user, setUser] = useState<any>(null);
   const [error, setError] = useState('');
+
+  const [activeSection, setActiveSection] =
+    useState<AdminSection>('products');
 
   useEffect(() => {
     const checkSession = async () => {
@@ -73,6 +79,7 @@ function Admin() {
     await supabase.auth.signOut();
     setUser(null);
     setPassword('');
+    setActiveSection('products');
   };
 
   if (loading) {
@@ -114,7 +121,11 @@ function Admin() {
 
           {error && <p style={styles.error}>{error}</p>}
 
-          <button style={styles.button} disabled={processing}>
+          <button
+            style={styles.button}
+            disabled={processing}
+            type="submit"
+          >
             {processing ? 'Ingresando...' : 'Iniciar sesión'}
           </button>
 
@@ -129,28 +140,40 @@ function Admin() {
   return (
     <main style={styles.page}>
       <section style={styles.dashboard}>
+        {/* ENCABEZADO */}
         <header style={styles.header}>
           <div>
             <span style={styles.brand}>MOORE VISION</span>
-            <p style={styles.headerSubtitle}>Administración de tienda</p>
+            <p style={styles.headerSubtitle}>
+              Administración de tienda
+            </p>
           </div>
 
-          <button style={styles.logout} onClick={handleLogout}>
+          <button
+            style={styles.logout}
+            onClick={handleLogout}
+            type="button"
+          >
             Cerrar sesión
           </button>
         </header>
 
+        {/* BIENVENIDA */}
         <div style={styles.welcomeSection}>
           <p style={styles.label}>PANEL ADMINISTRATIVO</p>
 
-          <h1 style={styles.title}>Bienvenido a tu panel.</h1>
+          <h1 style={styles.title}>
+            Bienvenido a tu panel.
+          </h1>
 
           <p style={styles.description}>
-            Administra la colección de Moore Vision desde un solo lugar.
+            Administra las monturas y la publicidad de Moore Vision
+            desde un solo lugar.
           </p>
 
           <div style={styles.welcome}>
             <div style={styles.statusDot}></div>
+
             <div>
               <strong>Acceso autorizado</strong>
               <p>{user.email}</p>
@@ -158,7 +181,45 @@ function Admin() {
           </div>
         </div>
 
-        <AdminProducts />
+        {/* NAVEGACIÓN ADMINISTRATIVA */}
+        <div style={styles.sectionNavigation}>
+          <button
+            type="button"
+            onClick={() => setActiveSection('products')}
+            style={{
+              ...styles.sectionButton,
+              ...(activeSection === 'products'
+                ? styles.sectionButtonActive
+                : {}),
+            }}
+            aria-pressed={activeSection === 'products'}
+          >
+            <span style={styles.sectionIcon}>◈</span>
+            <span>Monturas</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveSection('advertisements')}
+            style={{
+              ...styles.sectionButton,
+              ...(activeSection === 'advertisements'
+                ? styles.sectionButtonActive
+                : {}),
+            }}
+            aria-pressed={activeSection === 'advertisements'}
+          >
+            <span style={styles.sectionIcon}>▣</span>
+            <span>Publicidad</span>
+          </button>
+        </div>
+
+        {/* CONTENIDO SEGÚN LA SECCIÓN */}
+        {activeSection === 'products' ? (
+          <AdminProducts />
+        ) : (
+          <AdminAdvertisements />
+        )}
       </section>
     </main>
   );
@@ -220,7 +281,7 @@ const styles: Record<string, CSSProperties> = {
 
   welcomeSection: {
     marginTop: '35px',
-    marginBottom: '40px',
+    marginBottom: '35px',
   },
 
   label: {
@@ -314,6 +375,41 @@ const styles: Record<string, CSSProperties> = {
     borderRadius: '50%',
     background: '#4a9b68',
     flexShrink: 0,
+  },
+
+  sectionNavigation: {
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    paddingBottom: '22px',
+    borderBottom: '1px solid #e8e8e8',
+    marginBottom: '25px',
+    flexWrap: 'wrap',
+  },
+
+  sectionButton: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '10px',
+    padding: '14px 22px',
+    background: '#f6f6f6',
+    border: '1px solid #e5e5e5',
+    color: '#555',
+    fontSize: '13px',
+    fontWeight: 600,
+    cursor: 'pointer',
+    transition: 'all 0.2s ease',
+  },
+
+  sectionButtonActive: {
+    background: '#202a34',
+    color: '#fff',
+    border: '1px solid #202a34',
+  },
+
+  sectionIcon: {
+    fontSize: '16px',
   },
 };
 

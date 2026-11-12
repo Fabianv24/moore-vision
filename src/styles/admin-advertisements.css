@@ -1,0 +1,630 @@
+
+/* =========================================================
+   MOORE VISION — ADMINISTRADOR DE PUBLICIDAD
+========================================================= */
+
+.advertisement-admin {
+  width: 100%;
+  margin-top: 45px;
+  color: #202020;
+  box-sizing: border-box;
+}
+
+.advertisement-admin *,
+.advertisement-admin *::before,
+.advertisement-admin *::after {
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   ENCABEZADOS
+========================================================= */
+
+.advertisement-admin-heading,
+.advertisement-form-heading,
+.advertisement-list-heading,
+.advertisement-panel-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+}
+
+.advertisement-admin-heading {
+  margin-bottom: 30px;
+}
+
+.advertisement-admin-eyebrow {
+  display: block;
+  color: #858585;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+}
+
+.advertisement-admin-heading h2 {
+  margin: 10px 0;
+  font-size: 27px;
+  font-weight: 600;
+}
+
+.advertisement-admin-heading p {
+  max-width: 540px;
+  margin: 0;
+  color: #777;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.advertisement-admin-heading button,
+.advertisement-refresh-button {
+  flex-shrink: 0;
+  padding: 13px 18px;
+  color: #fff;
+  background: #222a33;
+  border: 1px solid #222a33;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.advertisement-admin-heading button:hover,
+.advertisement-refresh-button:hover {
+  background: #3a4857;
+}
+
+/* =========================================================
+   MENSAJES
+========================================================= */
+
+.advertisement-message {
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.advertisement-error {
+  color: #a33131;
+  background: #fff0f0;
+  border: 1px solid #edcaca;
+}
+
+.advertisement-success {
+  color: #326a47;
+  background: #eef8f1;
+  border: 1px solid #cce4d3;
+}
+
+/* =========================================================
+   FORMULARIO
+========================================================= */
+
+.advertisement-form {
+  padding: 28px;
+  background: #fafafa;
+  border: 1px solid #e8e8e8;
+}
+
+.advertisement-form-heading {
+  margin-bottom: 25px;
+  padding-bottom: 19px;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.advertisement-form-heading h3,
+.advertisement-list-heading h3 {
+  margin: 8px 0 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.advertisement-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 19px;
+}
+
+.advertisement-field {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  min-width: 0;
+}
+
+.advertisement-field-full {
+  grid-column: 1 / -1;
+}
+
+.advertisement-field > label {
+  color: #444;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* CAMPOS DE TEXTO Y SELECTORES */
+
+.advertisement-field input:not([type="file"]):not([type="checkbox"]),
+.advertisement-field select,
+.advertisement-field textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 13px;
+  color: #222;
+  background: #fff;
+  border: 1px solid #dedede;
+  border-radius: 2px;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.advertisement-field input:focus,
+.advertisement-field select:focus,
+.advertisement-field textarea:focus {
+  border-color: #778a9d;
+}
+
+.advertisement-field textarea {
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.advertisement-field input[type="file"] {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  color: #444;
+  background: #fff;
+  border: 1px dashed #c9c9c9;
+  font-family: inherit;
+  font-size: 12px;
+}
+
+.advertisement-field small {
+  color: #888;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+/* =========================================================
+   SELECTOR VISUAL DE LOS TRES PANELES
+========================================================= */
+
+.advertisement-panel-selector {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  width: 100%;
+}
+
+.advertisement-panel-option {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 13px;
+
+  min-width: 0;
+  min-height: 125px;
+  padding: 19px;
+
+  appearance: none;
+  font-family: inherit;
+
+  background: #fff;
+  border: 1px solid #dedede;
+  border-radius: 3px;
+  color: #333;
+
+  text-align: left;
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.advertisement-panel-option:hover {
+  border-color: #8798a9;
+  background: #f7f9fb;
+  transform: translateY(-2px);
+}
+
+.advertisement-panel-option.selected {
+  background: #202a34;
+  border-color: #202a34;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(32, 42, 52, 0.16);
+}
+
+.advertisement-panel-option:focus-visible {
+  outline: 2px solid #8499ad;
+  outline-offset: 4px;
+}
+
+.advertisement-panel-option-number {
+  display: block;
+  color: #83909c;
+  font-size: 25px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  line-height: 1;
+}
+
+.advertisement-panel-option.selected
+.advertisement-panel-option-number {
+  color: #c6d7e8;
+}
+
+.advertisement-panel-option strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.advertisement-panel-option-status {
+  display: block;
+  color: #888;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.advertisement-panel-option.selected
+.advertisement-panel-option-status {
+  color: #c6d7e8;
+}
+
+/* =========================================================
+   CHECKBOX
+========================================================= */
+
+.advertisement-checkbox {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.advertisement-checkbox input[type="checkbox"] {
+  display: block;
+  flex: 0 0 16px;
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  padding: 0;
+  accent-color: #263440;
+  cursor: pointer;
+}
+
+/* =========================================================
+   VISTA PREVIA
+========================================================= */
+
+.advertisement-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  margin-top: 5px;
+  background: #f1f1f1;
+}
+
+.advertisement-preview > span {
+  color: #777;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.advertisement-preview img,
+.advertisement-preview video {
+  display: block;
+  width: 100%;
+  max-width: 440px;
+  max-height: 280px;
+  object-fit: contain;
+  background: #171717;
+}
+
+/* =========================================================
+   BOTONES DEL FORMULARIO
+========================================================= */
+
+.advertisement-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 25px;
+}
+
+.advertisement-save-button {
+  padding: 14px 22px;
+  color: #fff;
+  background: #202a34;
+  border: 1px solid #202a34;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.advertisement-save-button:hover {
+  background: #3a4a59;
+}
+
+.advertisement-save-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.advertisement-cancel-button {
+  padding: 13px 17px;
+  color: #555;
+  background: #fff;
+  border: 1px solid #ddd;
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.advertisement-cancel-button:hover {
+  background: #f0f0f0;
+}
+
+/* =========================================================
+   LISTA DE ANUNCIOS
+========================================================= */
+
+.advertisement-list-heading {
+  margin: 46px 0 23px;
+}
+
+.advertisement-panel-group {
+  margin-bottom: 27px;
+  background: #fff;
+  border: 1px solid #e8e8e8;
+}
+
+.advertisement-panel-heading {
+  padding: 17px 19px;
+  background: #f7f7f7;
+  border-bottom: 1px solid #e8e8e8;
+}
+
+.advertisement-panel-heading h4 {
+  margin: 0;
+  font-size: 14px;
+}
+
+.advertisement-panel-heading > span {
+  color: #888;
+  font-size: 11px;
+}
+
+.advertisement-admin-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* =========================================================
+   TARJETAS DEL ADMINISTRADOR
+========================================================= */
+
+.advertisement-admin-card {
+  display: grid;
+  grid-template-columns: 145px minmax(0, 1fr);
+  gap: 20px;
+  padding: 18px;
+  border-bottom: 1px solid #eee;
+}
+
+.advertisement-admin-card:last-child {
+  border-bottom: none;
+}
+
+.advertisement-admin-thumbnail {
+  width: 145px;
+  height: 125px;
+  overflow: hidden;
+  background: #222a33;
+}
+
+.advertisement-admin-thumbnail img,
+.advertisement-admin-thumbnail video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.advertisement-admin-details {
+  min-width: 0;
+}
+
+.advertisement-admin-card-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 9px;
+}
+
+.advertisement-order {
+  color: #888;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.advertisement-status {
+  padding: 5px 8px;
+  font-size: 10px;
+  border-radius: 2px;
+}
+
+.advertisement-status.is-active {
+  color: #317044;
+  background: #e9f5ed;
+}
+
+.advertisement-status.is-inactive {
+  color: #777;
+  background: #eee;
+}
+
+.advertisement-admin-details h5 {
+  margin: 0 0 7px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.advertisement-admin-details p {
+  margin: 0 0 8px;
+  color: #777;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.advertisement-admin-details small {
+  color: #999;
+  font-size: 10px;
+}
+
+/* =========================================================
+   ACCIONES DE LOS ANUNCIOS
+========================================================= */
+
+.advertisement-card-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 13px;
+}
+
+.advertisement-card-actions button {
+  padding: 7px 10px;
+  color: #444;
+  background: #fff;
+  border: 1px solid #ddd;
+  font-family: inherit;
+  font-size: 10px;
+  cursor: pointer;
+}
+
+.advertisement-card-actions button:hover:not(:disabled) {
+  background: #f1f1f1;
+}
+
+.advertisement-card-actions button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.advertisement-card-actions .advertisement-delete-button {
+  color: #a33e3e;
+  border-color: #e7caca;
+}
+
+.advertisement-empty {
+  padding: 23px;
+  color: #888;
+  background: #fafafa;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* =========================================================
+   TABLET Y PANTALLAS MEDIANAS
+========================================================= */
+
+@media (max-width: 700px) {
+  .advertisement-admin-heading,
+  .advertisement-form-heading,
+  .advertisement-list-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .advertisement-admin-heading button,
+  .advertisement-refresh-button {
+    width: 100%;
+  }
+
+  .advertisement-form {
+    padding: 19px;
+  }
+
+  .advertisement-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .advertisement-admin-card {
+    grid-template-columns: 95px minmax(0, 1fr);
+    gap: 13px;
+    padding: 13px;
+  }
+
+  .advertisement-admin-thumbnail {
+    width: 95px;
+    height: 105px;
+  }
+
+  .advertisement-admin-details h5 {
+    font-size: 13px;
+  }
+
+  .advertisement-card-actions {
+    gap: 5px;
+  }
+
+  .advertisement-card-actions button {
+    padding: 7px;
+    font-size: 9px;
+  }
+
+  .advertisement-form-actions {
+    flex-wrap: wrap;
+  }
+
+  .advertisement-save-button {
+    width: 100%;
+  }
+}
+
+/* =========================================================
+   CELULARES PEQUEÑOS
+========================================================= */
+
+@media (max-width: 500px) {
+  .advertisement-panel-selector {
+    grid-template-columns: 1fr;
+    gap: 9px;
+  }
+
+  .advertisement-panel-option {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 75px;
+    padding: 14px 16px;
+  }
+
+  .advertisement-panel-option-number {
+    font-size: 20px;
+  }
+
+  .advertisement-panel-option strong {
+    font-size: 13px;
+  }
+
+  .advertisement-panel-option-status {
+    text-align: right;
+  }
+}

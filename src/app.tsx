@@ -12,13 +12,7 @@ type SelectedImage = {
   name: string;
 };
 
-const normalizeText = (value: string) =>
-  value
-    .toLocaleLowerCase('es')
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '');
-
-const INITIAL_PRODUCT_LIMIT = 6;
+const INITIAL_PRODUCT_LIMIT = 8;
 
 function App() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -35,7 +29,9 @@ function App() {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const [showAllProducts, setShowAllProducts] = useState(false);
+  const [visibleProductCount, setVisibleProductCount] = useState(
+    INITIAL_PRODUCT_LIMIT
+  );
 
   const [selectedImage, setSelectedImage] = useState<SelectedImage | null>(null);
   const [zoom, setZoom] = useState(1);
@@ -87,22 +83,27 @@ function App() {
     selectedShape !== 'Todas' ||
     searchTerm.trim() !== '';
 
-  // Limita a seis productos únicamente cuando no hay filtros activos.
-  const visibleProducts =
-    !hasActiveFilters && !showAllProducts
-      ? filteredProducts.slice(0, INITIAL_PRODUCT_LIMIT)
-      : filteredProducts;
+  // Muestra las monturas progresivamente de 8 en 8.
+  const visibleProducts = filteredProducts.slice(
+    0,
+    visibleProductCount
+  );
 
-  const canExpandCatalog =
-    !hasActiveFilters &&
-    filteredProducts.length > INITIAL_PRODUCT_LIMIT;
+  // Comprueba si todavía existen monturas por mostrar.
+  const canLoadMore =
+    filteredProducts.length > visibleProductCount;
 
-  // Restablece todos los filtros y vuelve a la vista compacta.
+  // Restablece la cantidad visible cuando cambian los filtros.
+  useEffect(() => {
+    setVisibleProductCount(INITIAL_PRODUCT_LIMIT);
+  }, [selectedCategory, selectedShape, searchTerm]);
+
+  // Limpia los filtros y vuelve a mostrar las primeras 8 monturas.
   const clearFilters = () => {
     setSelectedCategory('Todos');
     setSelectedShape('Todas');
     setSearchTerm('');
-    setShowAllProducts(false);
+    setVisibleProductCount(INITIAL_PRODUCT_LIMIT);
   };
 
   useEffect(() => {
@@ -401,11 +402,7 @@ function App() {
               <p className="catalog-results-count" aria-live="polite">
                 {filteredProducts.length === 1
                   ? '1 montura encontrada'
-                  : hasActiveFilters
-                    ? `${filteredProducts.length} monturas encontradas`
-                    : canExpandCatalog && !showAllProducts
-                      ? `Mostrando ${visibleProducts.length} de ${filteredProducts.length} monturas`
-                      : `${filteredProducts.length} monturas en la colección`}
+                  : `Mostrando ${visibleProducts.length} de ${filteredProducts.length} monturas`}
               </p>
 
               {filteredProducts.length > 0 ? (
@@ -427,7 +424,12 @@ function App() {
                             aria-label={`Ampliar fotografía de ${product.name}`}
                             title="Ver imagen ampliada"
                           >
-                            <img src={product.image} alt={product.name} />
+                            <img
+                              src={product.image}
+                              alt={product.name}
+                              loading="lazy"
+                              decoding="async"
+                            />
 
                             {product.is_new && (
                               <span className="product-new-badge">
@@ -477,24 +479,20 @@ function App() {
                     ))}
                   </div>
 
-                  {/* BOTÓN PARA DESPLEGAR O REDUCIR EL CATÁLOGO */}
-                  {canExpandCatalog && (
+                  {/* BOTÓN PARA CARGAR MÁS MONTURAS */}
+                  {canLoadMore && (
                     <div className="catalog-expansion-controls">
                       <button
                         type="button"
                         className="catalog-toggle-button"
                         onClick={() =>
-                          setShowAllProducts((current) => !current)
+                          setVisibleProductCount(
+                            (current) => current + INITIAL_PRODUCT_LIMIT
+                          )
                         }
-                        aria-expanded={showAllProducts}
                       >
-                        {showAllProducts
-                          ? 'VER MENOS'
-                          : 'VER CATÁLOGO COMPLETO'}
-
-                        <span aria-hidden="true">
-                          {showAllProducts ? '↑' : '↓'}
-                        </span>
+                        CARGAR MÁS MONTURAS
+                        <span aria-hidden="true">↓</span>
                       </button>
                     </div>
                   )}
@@ -648,6 +646,13 @@ function App() {
       )}
     </main>
   );
+}
+
+function normalizeText(value: string) {
+  return value
+    .toLocaleLowerCase('es')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
 }
 
 export default App;
